@@ -1,0 +1,1415 @@
+:root {
+  --bg: #07080f;
+  --text: #e8eaf2;
+  --muted: #9aa0b4;
+  --accent: #7b9bff;
+  --glass: rgba(255, 255, 255, 0.06);
+  --glass-hover: rgba(255, 255, 255, 0.1);
+  --line: rgba(255, 255, 255, 0.1);
+  --side-w: 260px;
+  --side-w-collapsed: 60px;
+
+  --composer-width-pc: 590px;      /* PC View ki length */
+  --composer-width-mobile: 90%;    /* Mobile View ki length */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+html { height: 100%; scroll-behavior: smooth; }
+
+body {
+  height: 100%;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Video Styling */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* Gradient Overlay Styling */
+.bg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(60% 45% at 50% 60%, rgba(50, 80, 210, 0.22), transparent 70%),
+              linear-gradient(180deg, rgba(5, 6, 12, 0.55), rgba(5, 6, 12, 0.88));
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Top Bar Styling */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Left side ko left aur right side ko right corner bhejega */
+  z-index: 100; /* High z-index taake desktop aur mobile dono views par hamesha top par nazar aaye */
+  pointer-events: none; /* Khali space par click-through allow karega */
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  pointer-events: auto; /* Profile aur button par click restore karega */
+}
+
+.menu-toggle-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 10px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.menu-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Top Bar Styling */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Profile icon ko right side par bheje ga */
+  z-index: 100;
+  pointer-events: none;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  pointer-events: auto; /* Profile image par click event restore karega */
+}
+
+/* Profile Icon Styling */
+.user-profile {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.user-profile:hover {
+  transform: scale(1.08);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.user-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  width: var(--side-w);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 10px;
+  overflow: hidden;
+  background: rgba(10, 12, 22, 0.6);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--line);
+  z-index: 30;
+  transition: all 0.3s ease;
+}
+
+.side-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  margin-bottom: 6px;
+}
+.logo-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 40px;
+  padding: 0 8px;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--muted);
+  transition: all 0.2s ease;
+}
+.icon-btn:hover { background: var(--glass-hover); color: var(--text); }
+
+.collapse-btn { overflow: hidden; }
+
+.label { transition: opacity 0.2s ease; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+.nav-item:hover { background: var(--glass-hover); }
+.nav-item.active { background: rgba(255, 255, 255, 0.08); font-weight: 500; }
+
+.search-box { padding: 2px 0 4px; transition: all 0.3s ease; }
+.search-box input {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  outline: 0;
+  font-size: 0.88rem;
+  transition: border-color 0.2s ease;
+}
+.search-box input:focus { border-color: rgba(123, 155, 255, 0.55); }
+.search-box input::placeholder { color: var(--muted); }
+
+.recent {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+.recent-title {
+  padding: 0 10px 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.chat-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+.chat-item {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 0.875rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
+}
+.chat-item:hover { background: var(--glass-hover); color: var(--text); transform: translateX(2px); }
+.chat-item.active { background: rgba(123, 155, 255, 0.16); color: var(--text); }
+.no-results { padding: 8px 10px; font-size: 0.85rem; color: var(--muted); }
+
+/* Collapsed (desktop only): ~60px rail with logo + icons */
+@media (min-width: 768px) {
+  .app.collapsed .sidebar { width: var(--side-w-collapsed); }
+  .app.collapsed .label { opacity: 0; }
+  .app.collapsed .collapse-btn { width: 0; opacity: 0; pointer-events: none; }
+  .app.collapsed .recent,
+  .app.collapsed .search-box { opacity: 0; visibility: hidden; }
+}
+
+.backdrop { display: none; }
+.topbar { display: none; }
+
+/* ---------- Main ---------- */
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 0 20px;
+}
+
+.greeting {
+  font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+  font-weight: 100;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-align: center;
+  animation: riseAndBlur 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Upward rise + Blur-in + Fade-in Keyframes */
+@keyframes riseAndBlur {
+  0% {
+    opacity: 0;
+    transform: translateY(25px); /* Nichay se start hoga */
+    filter: blur(12px);          /* Full blur hoga */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);    /* Apni jagah par aa jayega */
+    filter: blur(0px);           /* Blur khatam ho jayega */
+  }
+}
+
+.composer { width: 100%; }
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 8px 10px;
+  border-radius: 32px;
+  background: rgba(24, 26, 38, 0.6);
+  border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+/* Textarea flex take full available space */
+.input-box textarea {
+  flex: 1;
+  min-width: 0;
+}
+
+.input-box:focus-within {
+  border-color: rgba(123, 155, 255, 0.55);
+  box-shadow: 0 0 0 4px rgba(123, 155, 255, 0.12), 0 14px 50px rgba(20, 40, 140, 0.35);
+}
+
+/* ========================================================
+   MODEL SELECTOR STYLING
+   ======================================================== */
+.model-selector-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.model-select-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.model-select-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.chevron-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+  transition: transform 0.2s ease;
+}
+
+.model-selector-wrapper.open .chevron-icon {
+  transform: rotate(180deg);
+}
+
+/* Model Dropdown Menu (Opens Upward) */
+.model-menu {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: 0;
+  width: 210px;
+  padding: 6px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 210;
+
+  background: rgba(18, 20, 32, 0.82) !important;
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.96);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.model-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.model-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s ease;
+}
+
+.model-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.model-option.active {
+  background: rgba(123, 155, 255, 0.18);
+  border: 1px solid rgba(123, 155, 255, 0.3);
+}
+
+.model-title {
+  color: #f1f5f9;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.model-desc {
+  color: #94a3b8;
+  font-size: 0.74rem;
+  margin-top: 2px;
+}
+
+/* ========================================================
+   ACTION BUTTONS (Mic + Send Side-by-Side Animation)
+   ======================================================== */
+.action-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Send button hidden by default, slides in smoothly */
+.send-btn {
+  width: 0;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.6);
+  overflow: hidden;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ========================================================
+   INPUT BOX FLEX ORDERING (Mic & Send Button Fix)
+   ======================================================== */
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+/* Default Order Settings */
+#plusWrapper { order: 1; }
+#prompt { order: 2; flex: 1; }
+.model-selector-wrapper { order: 3; }
+
+/* Mic by default Right side par (Model Selector ke baad) */
+#micBtn {
+  order: 4;
+  transition: opacity 0.2s ease;
+}
+
+/* Send Button by default chupa hua */
+#sendBtn {
+  order: 5;
+  display: none;
+}
+
+/* Jab Typing start ho (JS adds .has-text class) */
+.input-box.has-text #micBtn {
+  order: 1; /* Mic Plus ke saath Left side par shift ho jayega */
+}
+
+.input-box.has-text #plusWrapper {
+  order: 2; /* Plus ko agar next karna chaho toh, ya order 1 bhi rakh sakte ho dono left rahenge */
+}
+
+.input-box.has-text #sendBtn {
+  display: flex; /* Send Button Right par aa jayega */
+}
+
+/* ========================================================
+   DROPDOWNS (PC Downwards, Mobile Upwards)
+   ======================================================== */
+.plus-menu, .model-menu {
+  position: absolute;
+  top: calc(100% + 12px); /* PC Default: Dropdown neechay khulay ga */
+  left: 0;
+  width: 230px;
+  padding: 8px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 210;
+  
+  /* Glassmorphism */
+  background: rgba(18, 20, 32, 0.82);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.96);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.model-menu {
+  left: auto;
+  right: 0;
+}
+
+.plus-menu.show, .model-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* ========================================================
+   MODEL SELECTOR BUTTON & TICK MARKS
+   ======================================================== */
+.model-select-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #e2e8f0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.3s ease;
+}
+
+.model-select-btn:hover {
+  background: rgba(255, 255, 255, 0.08); /* Sirf hover par bg aayega */
+}
+
+.chevron-icon { width: 14px; height: 14px; opacity: 0.7; transition: transform 0.2s; }
+.model-selector-wrapper.open .chevron-icon { transform: rotate(180deg); }
+
+/* Clean Model Options without Default Box */
+.model-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s ease;
+}
+
+.model-option:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Tick Icon */
+.check-icon {
+  width: 18px;
+  height: 18px;
+  color: #a8c7fa;
+  opacity: 0; /* Default invisible */
+  transform: scale(0.8);
+  transition: all 0.2s ease;
+}
+
+/* Active Class Tick Setup */
+.model-option.active .check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ========================================================
+   MOBILE & PC VIEW ADJUSTMENTS
+   ======================================================== */
+/* ========================================================
+   MOBILE CENTER LOGO & SIZE CONTROL
+   ======================================================== */
+.mobile-center-logo {
+  display: none; /* By default PC mein hide rahega */
+  text-align: center;
+  margin-bottom: -12px; /* Text se faasla rakhne ke liye */
+}
+
+/* 👈 YAHAN SE LOGO KA SIZE BARA / CHOTA KARO */
+.mobile-center-logo svg,
+.mobile-center-logo img,
+.mobile-center-logo .icon {
+  width: 56px;  /* 👈 Aap isey 48px, 56px, 64px ya apni marzi se barha sakte ho */
+  height: 56px; /* 👈 Same height bhi utni hi rakhein */
+  
+  /* Drop-shadow glow effect (Gemini style) */
+  filter: drop-shadow(0 0 12px rgba(168, 199, 250, 0.4));
+  transition: all 0.3s ease;
+}
+
+/* Mobile View Display */
+@media (max-width: 767.98px) {
+  .mobile-center-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* ========================================================
+   CLICK / FOCUS BORDER REMOVAL FIX (No Capsule Outline)
+   ======================================================== */
+.model-select-btn,
+.model-select-btn:focus,
+.model-select-btn:active,
+.model-select-btn:focus-visible,
+.model-selector-wrapper.open .model-select-btn {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  -webkit-tap-highlight-color: transparent !important; /* Mobile blue/gray highlight fix */
+  padding: 4px 8px;
+}
+
+/* ========================================================
+   MOBILE TOP-LEFT BAR STYLING
+   ======================================================== */
+@media (max-width: 767.98px) {
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 12px 16px;
+  }
+
+  /* Top Left Model Selector in Mobile */
+  .topbar .model-selector-wrapper {
+    position: relative;
+    margin-left: 2px;
+  }
+
+  .topbar .model-select-btn {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #e2e8f0;
+  }
+
+  /* ========================================================
+   1. TICK MARK LEFT SIDE FIX (.model-option)
+   ======================================================== */
+.model-option {
+  display: flex !important;
+  flex-direction: row !important; /* Tick hamesha LEFT par rahega */
+  align-items: center !important;   /* Vertically bilkul center inline */
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer;
+  text-align: left !important;
+  transition: background 0.2s ease;
+}
+
+.model-option:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Tick Icon Styling */
+.check-icon {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important; /* Icon shape square rahegi */
+  color: #a8c7fa;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.2s ease;
+  flex-shrink: 0 !important;
+}
+
+/* Active Tick Visible */
+.model-option.active .check-icon {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+.model-text {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+}
+
+.model-title {
+  color: #f1f5f9;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left !important;
+}
+
+.model-desc {
+  color: #94a3b8;
+  font-size: 0.74rem;
+  margin-top: 1px;
+  text-align: left !important;
+}
+
+/* ========================================================
+   2. DROPDOWN DIRECTION FIX (PC & Mobile Both Open DOWNWARDS)
+   ======================================================== */
+.model-menu {
+  position: absolute;
+  top: calc(100% + 8px) !important; /* PC mein hamesha NEECHAY khulay ga */
+  bottom: auto !important;
+  right: 0;
+  width: 230px;
+  padding: 8px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 210;
+  
+  /* Glassmorphism */
+  background: rgba(18, 20, 32, 0.92);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.96);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.model-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Mobile Alignment Fix */
+@media (max-width: 767.98px) {
+  .topbar .model-menu {
+    top: calc(100% + 10px) !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
+  }
+}
+
+/* ========================================================
+   1. GLOWING DOT ANIMATION KEYFRAMES
+   ======================================================== */
+@keyframes glowFade {
+  0% {
+    opacity: 0.35;
+    transform: scale(0.85);
+    box-shadow: 0 0 4px rgba(56, 189, 248, 0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.9), 0 0 22px rgba(56, 189, 248, 0.6);
+  }
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+    box-shadow: 0 0 4px rgba(56, 189, 248, 0.3);
+  }
+}
+
+/* ========================================================
+   2. PLUS WRAPPER & GLOWING DOT (Visible everywhere)
+   ======================================================== */
+#plusWrapper, 
+.plus-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: auto !important;
+  margin-right: 12px !important; /* Dot aur text ke darmiyan gap */
+}
+
+.glowing-dot {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 10px !important;
+  height: 10px !important;
+  min-width: 10px !important;
+  min-height: 10px !important;
+  background-color: #38bdf8 !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  animation: glowFade 2s infinite ease-in-out !important;
+}
+
+/* ========================================================
+   3. UNIFIED CAPSULE BAR (PC & Mobile Perfect Pill Shape)
+   ======================================================== */
+#composer, 
+.composer,
+#inputBox, 
+.input-box {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  border-radius: 50px !important;       /* 👈 Perfect pill/capsule shape */
+  padding: 12px 20px !important;
+  gap: 12px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Textarea / Input Field Styling */
+.composer input,
+.composer textarea,
+#prompt {
+  flex: 1 !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: #ffffff !important;
+  font-size: 1rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  resize: none !important;
+}
+
+/* ========================================================
+   4. PC VIEW ADJUSTMENTS
+   ======================================================== */
+@media (min-width: 768px) {
+  #composer, 
+  .composer,
+  #inputBox, 
+  .input-box {
+    padding: 12px 24px !important;  /* PC par thori extra left/right padding */
+  }
+}
+
+/* ========================================================
+   1. TICK MARK FIXED ON LEFT (PC & Mobile Both)
+   ======================================================== */
+.model-option {
+  display: flex !important;
+  flex-direction: row !important;      /* Hamesha Horizontal Row */
+  align-items: center !important;      /* Vertically Center */
+  justify-content: flex-start !important;
+  width: 100% !important;
+  padding: 10px 12px !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  text-align: left !important;
+  transition: background 0.2s ease !important;
+}
+
+.model-option:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Tick Icon - Forced to LEFT (Order 1) */
+.model-option .check-icon {
+  order: 1 !important;                 /* Bilkul Left par */
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  margin-right: 10px !important;       /* Text se right side par gap */
+  color: #a8c7fa !important;
+  opacity: 0 !important;
+  transform: scale(0.8) !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+}
+
+/* Active Tick Visibility */
+.model-option.active .check-icon {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+/* Text Block - Forced to RIGHT of Tick (Order 2) */
+.model-option .model-text {
+  order: 2 !important;                 /* Tick ke Aage (Right) */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  flex: 1 !important;
+}
+
+.model-option .model-title {
+  color: #f1f5f9 !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+}
+
+.model-option .model-desc {
+  color: #94a3b8 !important;
+  font-size: 0.74rem !important;
+  margin-top: 1px !important;
+  text-align: left !important;
+}
+
+/* ========================================================
+   2. DROPDOWN POSITIONING (PC = Opens UP, Mobile = Opens DOWN)
+   ======================================================== */
+.model-menu {
+  position: absolute !important;
+  width: 230px !important;
+  padding: 8px !important;
+  border-radius: 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  z-index: 210 !important;
+  
+  /* Glassmorphism */
+  background: rgba(18, 20, 32, 0.92) !important;
+  backdrop-filter: blur(25px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6) !important;
+
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  pointer-events: none !important;
+}
+
+/* --- PC VIEW: Bottom Input Bar ke UPAR (UPWARDS) Khulega --- */
+@media (min-width: 768px) {
+  .model-menu {
+    bottom: calc(100% + 12px) !important; /* Above the input bar */
+    top: auto !important;
+    right: 0 !important;
+    left: auto !important;
+    transform: translateY(8px) scale(0.96) !important;
+  }
+
+  .model-menu.show {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+    pointer-events: auto !important;
+  }
+}
+
+/* --- MOBILE VIEW: Topbar ke NEECHAY (DOWNWARDS) Khulega --- */
+@media (max-width: 767.98px) {
+  .topbar .model-menu {
+    top: calc(100% + 10px) !important;    /* Below topbar */
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
+    transform: translateY(-8px) scale(0.96) !important;
+  }
+
+  .topbar .model-menu.show {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+    pointer-events: auto !important;
+  }
+}
+  /* Dropdown opens DOWNWARDS from topbar in mobile */
+  .topbar .model-menu {
+    top: calc(100% + 10px) !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
+  }
+}
+
+/* PC View: Dropdown Upar khulega (kyunki input bar mein hai) */
+@media (min-width: 768px) {
+  .model-menu {
+    top: auto !important;
+    bottom: calc(100% + 12px) !important;
+    transform: translateY(8px) scale(0.96) !important;
+  }
+}
+
+/* Mobile View: Layout Shifts */
+@media (max-width: 767.98px) {
+  .mobile-center-logo {
+    display: block; /* Mobile mein Center Logo show hoga */
+  }
+  
+  .topbar .brand {
+    display: none; /* Mobile mein Top-Left Logo hide hoga */
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Menu aur Model Selector ke darmiyan fasla */
+  }
+
+  /* Mobile mein Model Selector Topbar mein hoga, toh Dropdown Neechay khulega */
+  .model-menu {
+    top: calc(100% + 12px) !important;
+    bottom: auto !important;
+    transform: translateY(-8px) scale(0.96) !important;
+    left: 0 !important;
+    right: auto !important;
+  }
+
+  /* Input Bar Floating (Keyboard Logic ke liye base styling) */
+  .composer {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    z-index: 1000;
+    transition: bottom 0.1s ease-out; /* Smooth snapping over keyboard */
+  }
+}
+
+.model-text { display: flex; flex-direction: column; }
+.model-title { color: #f1f5f9; font-size: 0.86rem; font-weight: 600; }
+.model-desc { color: #94a3b8; font-size: 0.74rem; margin-top: 2px; }
+
+/* ========================================================
+   MOBILE FIXES (Dropdown Upwards)
+   ======================================================== */
+@media (max-width: 767.98px) {
+  .plus-menu, .model-menu {
+    top: auto;
+    bottom: calc(100% + 12px); /* Mobile mein Upar ki taraf khulay ga */
+    transform: translateY(8px) scale(0.96);
+  }
+}
+
+.send-btn .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Text type karne par Send button side mein visible ho jaye */
+.input-box.has-text .send-btn {
+  width: 36px;
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.send-btn:hover {
+  background: #2563eb;
+}
+
+#prompt {
+  resize: none;
+  overflow: hidden;
+  outline: none;
+  background: transparent;
+  border: none;
+}
+
+
+textarea {
+  flex: 1;
+  min-width: 0;
+  max-height: 180px;
+  padding: 10px 6px;
+  resize: none;
+  overflow-y: auto;
+  background: none;
+  border: 0;
+  outline: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+textarea::placeholder { color: var(--muted); }
+
+.send {
+  display: none;
+  flex-shrink: 0;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7b9bff, #a78bfa);
+  color: #0a0b14;
+  transition: transform 0.15s ease;
+}
+.send:hover { transform: scale(1.08); }
+.input-box.has-text .send { display: grid; }
+.input-box.has-text .mic { display: none; }
+
+/* ---------- Messages ---------- */
+.messages {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 760px;
+  flex-direction: column;
+  gap: 22px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 16px 4px 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+.main.started .greeting { display: none; }
+.main.started .messages { display: flex; }
+.main.started .stage { justify-content: flex-start; gap: 0; padding-bottom: 24px; }
+
+.msg { display: flex; gap: 12px; animation: rise 0.25s ease both; }
+.msg.user { justify-content: flex-end; }
+.bubble { max-width: 80%; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.user .bubble {
+  padding: 12px 18px;
+  border-radius: 20px 20px 6px 20px;
+  background: rgba(123, 155, 255, 0.18);
+  border: 1px solid rgba(123, 155, 255, 0.28);
+}
+.ai .bubble { max-width: 100%; padding-top: 4px; }
+.avatar {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f8cff, #a78bfa);
+  box-shadow: 0 0 18px rgba(123, 155, 255, 0.45);
+}
+
+.typing { display: flex; gap: 5px; padding: 10px 0; }
+.typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.1s infinite ease-in-out;
+}
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+@keyframes pulse { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+
+.composer { 
+  width: 100%; 
+  width: min(var(--composer-width-pc), 90vw);
+  margin: 0 auto;
+  position: relative;
+}
+
+.input-box::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 104%;
+  height: 130%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  border-radius: 36px;
+  pointer-events: none;
+  filter: blur(28px);
+  opacity: 0;
+  
+  /* Smooth Glow Logic: Ek bada background gradient set kiya hai */
+  background: 
+    radial-gradient(circle at 0% 0%, rgba(147, 51, 234, 0.45) 0%, transparent 60%), 
+    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.4) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.3) 0%, transparent 60%);
+  background-size: 200% 200%; /* Background ko element se bada kar diya */
+  
+  /* Animation ki timing thori barha di hai taake soothing effect aaye */
+  animation: fadeInGlow 1s ease forwards, smoothGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes fadeInGlow {
+  to { opacity: 0.65; }
+}
+
+/* Colors change karne ke bajaye hum unki position move kar rahe hain */
+@keyframes smoothGlow {
+  0% { 
+    background-position: 0% 0%; 
+  }
+  50% { 
+    background-position: 100% 100%; 
+  }
+  100% { 
+    background-position: 0% 100%; 
+  }
+}
+
+/* Plus Button Wrapper */
+.plus-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Glassmorphic Upward Dropdown Menu */
+.plus-menu {
+  position: absolute;
+  bottom: calc(100% + 14px); /* Upward direction mein khulega */
+  left: 0;
+  min-width: 170px;
+  padding: 6px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 200;
+
+  /* Clean Premium Glassmorphism (No back glow / color change) */
+  background: rgba(18, 20, 32, 0.8) !important;
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+
+  /* Animation Setup */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.96);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+/* Show Menu Class */
+.plus-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Dropdown Menu Item Styling */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: #e8eaf2;
+  font-size: 0.88rem;
+  font-weight: 400;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(3px);
+}
+
+.menu-item .icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.85;
+}
+
+/* Textarea ka andar wala blue outline aur box hatane ke liye */
+textarea,
+textarea:focus,
+textarea:focus-visible,
+textarea:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* ---------- Mobile (< 768px) ---------- */
+@media (max-width: 767.98px) {
+  .topbar { display: flex; align-items: center; gap: 6px; padding: 10px 12px; }
+  .brand { font-size: 1.05rem; font-weight: 500; }
+
+  /* Sliding drawer */
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(300px, 84vw);
+    transform: translateX(-100%);
+    background: rgba(10, 12, 22, 0.97);
+    box-shadow: 8px 0 40px rgba(0, 0, 0, 0.5);
+  }
+  .app.drawer-open .sidebar { transform: translateX(0); }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .app.drawer-open .backdrop { opacity: 1; pointer-events: auto; }
+
+/* Fixed bottom input mobile */
+  .composer {
+    width: var(--box-width-mobile);
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+  .input-box::before {
+    filter: blur(22px);
+    width: 110%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* ========================================================
+   3. MOBILE VIEW (Bottom Center Aligned)
+   ======================================================== */
+@media (max-width: 767.98px) {
+  /* Screen ke bottom content ke sath overlapping roknay ke liye */
+  .stage {
+    padding-bottom: 90px !important;
+  }
+
+  /* Mobile par Screen ke bilkul Bottom-Center mein Fix */
+  .composer {
+    position: fixed;
+    left: 50%;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    
+    /* Responsive Auto Length for Mobile */
+    width: min(var(--composer-width-mobile), 94vw);
+    z-index: 100;
+    margin: 0;
+  }
+}
